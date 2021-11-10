@@ -11,7 +11,7 @@
         "laravel-peru-consult"
     ],
     "homepage": "https://github.com/MrJmpl3/laravel--package-peru-consult",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "MIT",
     "authors": [
         {
@@ -43,7 +43,7 @@
     "extra": {
         "laravel": {
             "aliases": {
-                "Sunat": "Sunat"
+                "Sunat": "MrJmpl3\\LaravelPeruConsult\\Facades\\Sunat"
             },
             "providers": [
                 "MrJmpl3\\LaravelPeruConsult\\LaravelPeruConsultServiceProvider"
