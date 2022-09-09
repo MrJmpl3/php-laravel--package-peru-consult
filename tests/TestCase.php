@@ -7,6 +7,7 @@ use MrJmpl3\LaravelPeruConsult\LaravelPeruConsultServiceProvider;
  * @internal
  *
  * @small
+ *
  * @coversNothing
  */
 class TestCase extends \Orchestra\Testbench\TestCase

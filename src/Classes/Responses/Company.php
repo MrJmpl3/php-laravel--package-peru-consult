@@ -5,125 +5,53 @@ use JsonSerializable;
 
 class Company implements JsonSerializable
 {
-    /**
-     * @var string
-     */
-    public $ruc;
+    public string $ruc;
 
-    /**
-     * @var string
-     */
-    public $razonSocial;
+    public string $razonSocial;
 
-    /**
-     * @var string
-     */
-    public $nombreComercial;
+    public string $nombreComercial;
 
-    /**
-     * @var array
-     */
-    public $telefonos;
+    public array $telefonos;
 
-    /**
-     * @var string
-     */
-    public $tipo;
+    public string $tipo;
 
-    /**
-     * @var string
-     */
-    public $estado;
+    public string $estado;
 
-    /**
-     * @var string
-     */
-    public $condicion;
+    public string $condicion;
 
-    /**
-     * @var string
-     */
-    public $direccion;
+    public string $direccion;
 
-    /**
-     * @var string
-     */
-    public $departamento;
+    public string $departamento;
 
-    /**
-     * @var string
-     */
-    public $provincia;
+    public string $provincia;
 
-    /**
-     * @var string
-     */
-    public $distrito;
+    public string $distrito;
 
-    /**
-     * @var string
-     */
-    public $fechaInscripcion;
+    public ?string $fechaInscripcion;
 
-    /**
-     * @var string
-     */
-    public $sistEmsion;
+    public string $sistEmsion;
 
-    /**
-     * @var string
-     */
-    public $sistContabilidad;
+    public string $sistContabilidad;
 
-    /**
-     * @var string
-     */
-    public $actExterior;
+    public string $actExterior;
 
-    /**
-     * @var array
-     */
-    public $actEconomicas;
+    public array $actEconomicas;
 
-    /**
-     * @var array
-     */
-    public $cpPago;
+    public array $cpPago;
 
-    /**
-     * @var array
-     */
-    public $sistElectronica;
+    public array $sistElectronica;
 
-    /**
-     * @var string
-     */
-    public $fechaEmisorFe;
+    public ?string $fechaEmisorFe;
 
-    /**
-     * @var array
-     */
-    public $cpeElectronico;
+    public array $cpeElectronico;
 
-    /**
-     * @var string
-     */
-    public $fechaPle;
+    public ?string $fechaPle;
 
-    /**
-     * @var array
-     */
-    public $padrones;
+    public array $padrones;
 
-    /**
-     * @var string
-     */
-    public $fechaBaja;
+    public ?string $fechaBaja;
 
-    /**
-     * @var string
-     */
-    public $profesion;
+    public string $profesion;
 
     /**
      * Specify data which should be serialized to JSON.

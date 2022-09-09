@@ -9,13 +9,10 @@ use MrJmpl3\LaravelPeruConsult\Classes\Parsers\XpathLoader;
 
 class HtmlRecaptchaParser
 {
-    /**
-     * Parse html to dictionary.
-     */
     public function parse(string $html): bool|array
     {
-        $xp = XpathLoader::getXpathFromHtml($html);
-        $table = $xp->query("//div[contains(concat(' ', normalize-space(@class), ' '), ' list-group ')]");
+        $xpath = XpathLoader::getXpathFromHtml($html);
+        $table = $xpath->query("//div[contains(concat(' ', normalize-space(@class), ' '), ' list-group ')]");
 
         if ($table->length === 0) {
             return false;
@@ -23,25 +20,26 @@ class HtmlRecaptchaParser
 
         $nodes = $table->item(0)->childNodes;
 
-        return $this->getKeyValues($nodes, $xp);
+        return $this->getKeyValues($nodes, $xpath);
     }
 
-    private function getKeyValues(DOMNodeList $nodes, DOMXPath $xp): array
+    private function getKeyValues(DOMNodeList $nodes, DOMXPath $xpath): array
     {
         $dic = [];
+
         foreach ($nodes as $item) {
             /** @var DOMNode $item */
             if ($this->isNotElement($item)) {
                 continue;
             }
 
-            $this->setKeyValuesFromNode($xp, $item, $dic);
+            $this->setKeyValuesFromNode($xpath, $item, $dic);
         }
 
         return $dic;
     }
 
-    private function setKeyValuesFromNode(DOMXPath $xp, DOMNode $item, &$dic)
+    private function setKeyValuesFromNode(DOMXPath $xp, DOMNode $item, &$dic): void
     {
         $keys = $xp->query(".//*[contains(concat(' ', normalize-space(@class), ' '), ' list-group-item-heading ')]", $item);
         $values = $xp->query(".//*[contains(concat(' ', normalize-space(@class), ' '), ' list-group-item-text ')]", $item);
@@ -69,14 +67,14 @@ class HtmlRecaptchaParser
     {
         $rows = $xp->query('.//table/tbody/tr/td', $item);
 
-        foreach ($rows as $item) {
+        foreach ($rows as $rowItem) {
             /* @var $item DOMNode */
-            yield trim($item->textContent);
+            yield trim($rowItem->textContent);
         }
     }
 
     private function isNotElement(DOMNode $node): bool
     {
-        return XML_ELEMENT_NODE !== $node->nodeType;
+        return $node->nodeType !== XML_ELEMENT_NODE;
     }
 }

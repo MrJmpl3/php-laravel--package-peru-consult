@@ -2,8 +2,9 @@
 namespace MrJmpl3\LaravelPeruConsult\Consultants;
 
 use GuzzleHttp\Cookie\CookieJar;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
-use MrJmpl3\LaravelPeruConsult\Classes\Endpoints\Sunat as SunatEndpoints;
+use MrJmpl3\LaravelPeruConsult\Classes\Endpoints\SunatEndpoints;
 use MrJmpl3\LaravelPeruConsult\Classes\Parsers\Sunat\HtmlRecaptchaParser;
 use MrJmpl3\LaravelPeruConsult\Classes\Parsers\Sunat\RucParser;
 use MrJmpl3\LaravelPeruConsult\Classes\Responses\Company;
@@ -13,20 +14,20 @@ class Sunat
     private static string $PATTERN = '/<input type="hidden" name="numRnd" value="(.*)">/';
 
     /**
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException
      */
     public function get($ruc): ?Company
     {
         $jar = new CookieJar();
 
-        Http::withOptions([
+        Http::retry(3, 1000)->withOptions([
             'cookies' => $jar,
             'timeout' => 60,
         ])
             ->get(SunatEndpoints::CONSULT)
             ->throw();
 
-        $htmlRandom = Http::withOptions([
+        $htmlRandom = Http::retry(3, 1000)->withOptions([
             'cookies' => $jar,
             'timeout' => 60,
         ])
@@ -40,7 +41,7 @@ class Sunat
 
         $random = $this->getRandom($htmlRandom);
 
-        $html = Http::withOptions([
+        $html = Http::retry(3, 1000)->withOptions([
             'cookies' => $jar,
             'timeout' => 60,
         ])
@@ -58,9 +59,7 @@ class Sunat
         $htmlParser = new HtmlRecaptchaParser();
         $dic = $htmlParser->parse($html);
 
-        $rucParser = new RucParser();
-
-        return $rucParser->parse($dic);
+        return (new RucParser())->parse($dic);
     }
 
     private function getRandom(string $html): string
